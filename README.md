@@ -1,6 +1,5 @@
 # SWE-bench Regression Evaluator
 
-Same tasks. Different evaluator.
 
 ## What it is
 
