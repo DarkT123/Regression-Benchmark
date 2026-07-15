@@ -1,5 +1,20 @@
-Readme · MDSWE-bench Regression Re-scoring
+SWE-bench Regression Evaluator
 
-How often do coding agents break working code while fixing a bug?
+A scoring layer for SWE-bench that surfaces a metric the leaderboard discards. Test to see what agent breaks when they fix something. 
 
-SWE-bench leaderboards rank agents by resolve rate: did the agent fix the reported issue? The harness also runs PASS_TO_PASS tests (tests that passed before the change and should still pass after), but the outcome is collapsed into a single pass/fail and never surfaced in rankings.
+
+SWE-bench already runs two sets of tests per instance:
+
+
+FAIL_TO_PASS — should start failing and pass once the bug is fixed
+PASS_TO_PASS — already passing, and should stay passing
+
+
+The leaderboard collapses both into one bit: resolved, or not. So two very different outcomes get the same label:
+
+
+the agent failed to fix the bug
+the agent fixed the bug and broke working code doing it
+
+
+This evaluator separates them and reports the second as its own number.
