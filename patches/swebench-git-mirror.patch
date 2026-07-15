@@ -1,0 +1,15 @@
+--- a/swebench/harness/test_spec/python.py
++++ b/swebench/harness/test_spec/python.py
+@@ -270,7 +270,11 @@
+     """
+     branch = REPO_BASE_COMMIT_BRANCH.get(repo, {}).get(base_commit, "")
+     branch = f"--branch {branch}" if branch else ""
+-    setup_commands = [
++    import os as _os
++    _mirror = _os.environ.get("SWEBENCH_GIT_MIRROR")  # opt-in local mirror, e.g. git://host.docker.internal:9418/
++    setup_commands = ([
++        f'git config --global url."{_mirror}".insteadOf "https://github.com/"',
++    ] if _mirror else []) + [
+         f"git clone -o origin {branch} --single-branch https://github.com/{repo} {repo_directory}",
+         f"chmod -R 777 {repo_directory}",  # So nonroot user can run tests
+         f"cd {repo_directory}",
